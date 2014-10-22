@@ -34,7 +34,7 @@ class BankAccountController {
 			def myBranchAccounts = BankAccount.findAllByBranch('b2') 
 			println '1> '+myBranchAccounts
 			def result = []
-			test.BankAccount.findAllByBranch('b2').every{ result<<it.branch}
+			test.BankAccount.findAllByBranch('b2').every{ result<<it.dump().encodeAsHTML()}
 			
 			render text:result.join(', ')
 		}
@@ -44,8 +44,8 @@ class BankAccountController {
 		  println '2> waking up'
 			def acc = test.BankAccount.findByName('a1')
 			println '2> '+acc.inspect()
-			acc.branch = 'branch2-saved in thread2'
-			acc.save(failOnError:true)
+			acc.branch = 'b2'
+			acc.save(flush: true, failOnError:true)
 			println '2> saved'
 			render text:acc.toString()
 		}
